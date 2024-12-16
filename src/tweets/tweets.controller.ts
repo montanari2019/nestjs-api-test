@@ -2,12 +2,20 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { TweetsService } from './tweets.service';
 import { CreateTweetDto } from './dto/create-tweet.dto';
 import { UpdateTweetDto } from './dto/update-tweet.dto';
+import { ApiOkResponse } from '@nestjs/swagger';
+import { TweetSchemaClass } from './entities/tweet.entity';
 
 @Controller('tweets')
 export class TweetsController {
   constructor(private readonly tweetsService: TweetsService) {}
 
   @Post()
+  @ApiOkResponse({
+    description:
+      'Rota para criar um tweet',
+    isArray: false,
+    type: TweetSchemaClass
+  })
   create(@Body() createTweetDto: CreateTweetDto) {
     return this.tweetsService.create(createTweetDto);
   }
